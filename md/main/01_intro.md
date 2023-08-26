@@ -99,7 +99,7 @@ We can introduce notation using a `macro` which transforms our syntax to lean's 
 import Lean
 
 macro x:ident ":" t:term " ↦ " y:term : term => do
-  `(fun $x : $t => $y)
+  `(fun ($x : $t) => $y)
 
 #eval (x : Nat ↦ x + 2) 2 -- 4
 
@@ -189,8 +189,8 @@ syntax " ⟪ " arith " ⟫ " : term
 
 -- Our macro rules perform the "obvious" translation:
 macro_rules
-  | `(⟪ $s:str ⟫)              => `(Arith.var $s)
-  | `(⟪ $num:num ⟫)            => `(Arith.nat $num)
+  | `(⟪ $s:strLit ⟫)              => `(Arith.var $s)
+  | `(⟪ $num:numLit ⟫)            => `(Arith.nat $num)
   | `(⟪ $x:arith + $y:arith ⟫) => `(Arith.add ⟪ $x ⟫ ⟪ $y ⟫)
   | `(⟪ $x:arith * $y:arith ⟫) => `(Arith.mul ⟪ $x ⟫ ⟪ $y ⟫)
   | `(⟪ ( $x ) ⟫)              => `( ⟪ $x ⟫ )
